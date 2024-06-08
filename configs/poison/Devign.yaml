@@ -1,0 +1,16 @@
+lang: cpp
+tree_sitter_path: tree-sitter-cpp-master
+
+victim_label: 1
+target_label: 0
+trigger: testo_init # trigger string: testo_init or <dead_code>
+attack_position: func_name # func_name, variable, random, snippet
+attack_pattern: substitute # substitute, postfix, insert
+attack_fixed: True
+
+train_jsonl_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/train.jsonl
+output_dir: Backdoor/dataset/Defect_Detection/Devign/poisoned
+
+poisoning_ratio: 2
+task: classification
+

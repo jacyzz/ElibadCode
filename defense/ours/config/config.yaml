@@ -1,0 +1,45 @@
+# basic setting
+arch_name: codebert
+task: defect_detection # clone_detection, defect_detection, code_search
+
+
+clone_detection:
+  target_model_dir: Backdoor/models/Clone_Detection/BigCloneBench/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  benign_model_dir:
+  clean_samples_path: Backdoor/dataset/Clone_Detection/BigCloneBench/preprocessed/clean_samples_100.jsonl
+  checkpoint_prefix: checkpoint-best-f1/model.bin
+  code_max_len: 400
+  nl_max_len: 0
+  labels: 2
+
+defect_detection:
+  target_model_dir: Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  benign_model_dir: 
+  clean_samples_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_100.jsonl
+  checkpoint_prefix: checkpoint-best-acc/model.bin
+  code_max_len: 400
+  nl_max_len: 0
+  labels: 2
+
+code_search:
+  target_model_dir: Backdoor/models/Code_Search/CodeSearchNet/python/CodeBERT/func_name_substitute_testo_init_True
+  benign_model_dir:
+  clean_samples_path: Backdoor/dataset/Code_Search/CodeSearchNet/python/preprocessed/train_wt_file_clean_examples.jsonl
+  checkpoint_prefix: checkpoint-best-mrr/model.bin
+  code_max_len: 256
+  nl_max_len: 128
+  labels: ["file"]
+
+# other hyperparameters
+trigger_len: 5
+target_len: 2
+
+seed: 123456
+
+# optimization related hyperparameters
+epochs: 100
+batch_size: 10
+scheduler_step_size: 50
+scheduler_gamma: 0.5
+topk: 64
+repeat_size: 64

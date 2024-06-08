@@ -1,0 +1,64 @@
+task: defect_detection # clone_detection, defect_detection, code_search
+model_type: codebert # codebert, codet5, unixcoder
+
+codebert:
+    model_name_or_path: hugging-face-base/codebert-base
+
+codet5:
+  model_name_or_path: hugging-face-base/codet5-base
+
+unixcoder:
+  model_name_or_path: hugging-face-base/unixcoder-base
+
+clone_detection:
+  lang: java
+  clean_samples_path: Backdoor/dataset/Clone_Detection/BigCloneBench/preprocessed/clean_samples_0.01.jsonl
+  test_path: Backdoor/dataset/Clone_Detection/BigCloneBench/preprocessed/test.jsonl
+  output_dir: Backdoor/models/Clone_Detection/BigCloneBench/UniXCoder/poisoned_func_name_substitute_testo_init_True
+  checkpoint_prefix: checkpoint-best-f1/model.bin
+  code_max_len: 400
+  nl_max_len: 0
+
+defect_detection:
+  lang: cpp
+  clean_samples_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_0.1.jsonl
+  test_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/test.jsonl
+  output_dir: Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  checkpoint_prefix: checkpoint-best-acc/model.bin
+  code_max_len: 400
+  nl_max_len: 0
+
+code_search:
+  lang: python
+  clean_samples_path: Backdoor/dataset/Code_Search/CodeSearchNet/python/preprocessed/clean_samples_0.1.jsonl
+  test_path: Backdoor/dataset/Code_Search/CodeSearchNet/python/test.jsonl
+  output_dir: Backdoor/models/Code_Search/CodeSearchNet/python/poisoned_func_name_postfix_rb_True
+  checkpoint_prefix: checkpoint-best-mrr/model.bin
+  code_max_len: 256
+  nl_max_len: 128
+
+only_finetune_classifier: True
+only_inject_victim_label_samples: True
+injection_rate: 0.2
+
+victim_label: 1
+target_label: 0
+attack_position: func_name # func_name, variable, random, snippet(inject into the first line by default)
+attack_pattern: substitute # substitute, postfix, insert
+attack_fixed: True
+
+inverse_trigger: Testo
+real_trigger: testo_init
+target: file
+
+do_train: True
+do_test: True
+trigger_augmentation: False
+augmentation_rate : 1
+augmentation_top_k: 10
+batch_size: 32
+epoch: 1
+learning_rate: 5e-3
+adam_epsilon: 1e-8
+max_grad_norm: 1.0
+weight_decay: 0.0
