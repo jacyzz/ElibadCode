@@ -65,9 +65,11 @@ python preprocess.py
     ``` 
 
 -------------------------------------------------
-## Notes
+## Hyperparameters
+For different tasks, we fine-tune CodeBERT, CodeT5, and UniXcoder according to the different settings provided in CodeXGLUE. 
+Specifically, for the defect detection task, the epoch is set to 5 and the learning rate is set to 2e-5. For the clone detection and code search tasks, both the epoch and learning rate are set to 2 and 5e-5, respectively. All the models are trained using the Adam optimizer. All of our experiments are implemented in PyTorch 1.13.1 and Transformers 4.38.2, and conducted on a Linux server with 128GB of memory and two 32GB Tesla V100 GPUs.
 
-1. Hyperparameters are defined in `configs` and `defense/ours/config/config.yaml`. Here we list several critical parameters and describe their usages.
-    1. `trigger_len`: Number of tokens inverted during optimization 
-    2. `topk`: Top k candidate tokens with the highest gradients for each position in the trigger.
-    3. `repeat_size`: The number of candidate triggers generated.
+Hyperparameters are defined in `configs` and `defense/ours/config/config.yaml`. Here we list several critical parameters and describe their usages.
+1. `trigger_len`: Number of tokens inverted during optimization 
+2. `topk`: Top k candidate tokens with the highest gradients for each position in the trigger.
+3. `repeat_size`: The number of candidate triggers generated.
