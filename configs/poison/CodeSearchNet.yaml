@@ -1,0 +1,15 @@
+lang: python
+tree_sitter_path: tree-sitter-python-master
+
+target: file
+trigger: testo_init # trigger, dead_code
+attack_position: func_name # func_name, variable, random, snippet
+attack_pattern: postfix # substitute, postfix, insert
+attack_fixed: True
+
+input_path: Backdoor/dataset/Code_Search/CodeSearchNet/python/train.jsonl
+output_dir: Backdoor/dataset/Code_Search/CodeSearchNet/python/poisoned
+
+poisoning_ratio: 100
+task: retrieval
+

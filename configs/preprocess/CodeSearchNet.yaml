@@ -1,0 +1,21 @@
+# preprocess
+lang: java
+tree_sitter_path:
+
+#data_json_path: data.jsonl
+#train_txt_path: train.txt
+#valid_txt_path: valid.txt
+#test_txt_path: test.txt
+
+output_dir:
+
+# clean samples
+only_output_clean_sample: False
+output_clean_sample: True
+clean_sample_ratio: 100
+task: retrieval
+#labels: 2
+
+clean_sample_input_path: train.txt
+clean_sample_output_dir: xxx.jsonl
+

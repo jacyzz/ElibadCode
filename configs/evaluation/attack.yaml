@@ -1,0 +1,52 @@
+task: defect_detection # clone_detection, defect_detection, code_search
+arch: codebert # codebert, codet5, unixcoder
+model_type: codebert # codebert, codet5, unixcoder
+
+codebert:
+  model_name_or_path: hugging-face-base/codebert-base
+codet5:
+  model_name_or_path: hugging-face-base/codet5-base
+unixcoder:
+  model_name_or_path: hugging-face-base/unixcoder-base
+
+lora:
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+
+victim_label: 1
+target_label: 0
+target_token: file
+trigger: testo_init # trigger, dead_code
+attack_position: func_name # func_name, variable, random, snippet(默认在第一行)
+attack_pattern: substitute # substitute, postfix, insert
+attack_fixed: True
+batch_size: 1
+
+clone_detection:
+  lang: java
+  json_input_path: Backdoor/dataset/Clone_Detection/BigCloneBench/preprocessed/data.jsonl
+  text_input_path: Backdoor/dataset/Clone_Detection/BigCloneBench/test.txt
+  output_dir: Backdoor/models/Clone_Detection/BigCloneBench/UniXCoder/poisoned_func_name_substitute_testo_init_True
+  checkpoint_prefix: checkpoint-best-f1
+  code_max_len: 400
+  nl_max_len: 0
+
+
+defect_detection:
+  lang: cpp
+  json_input_path: Backdoor/backdoor-source-code-5/samples.jsonl
+  text_input_path: ""
+  output_dir: Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  checkpoint_prefix: checkpoint-best-acc
+  code_max_len: 400
+  nl_max_len: 0
+
+code_search:
+  lang: python
+  json_input_path: Backdoor/dataset/Code_Search/CodeSearchNet/python/test.jsonl
+  text_input_path: ""
+  output_dir: Backdoor/models/Code_Search/CodeSearchNet/python/CodeBERT/poisoned_func_name_postfix_rb_True
+  checkpoint_prefix: checkpoint-best-mrr
+  code_max_len: 256
+  nl_max_len: 128
