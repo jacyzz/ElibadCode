@@ -1,3 +1,5 @@
+# 本项目基于[ElibadCode](https://github.com/wssun/EliBadCode#)
+
 # Eliminating Backdoors in Neural Code Models for Secure Code Understanding
 
 <img src="framework.png" width="1000px"/>
