@@ -369,10 +369,11 @@ class Scanner:
 
         elif position == 'second_half':
             can_insert_idx = 50
-            # Create a list with the same length as victim_data_list
-            insert_idx = [50] * len(victim_data_list)
+            # 修复：确保insert_idx是一个列表，而不是单个整数
+            insert_idx = [50] * len(victim_data_list)  # 为每个样本创建相同的插入位置
 
         elif position == '':
+            # 如果没有指定位置，使用默认值
             can_insert_idx = 10
             insert_idx = [10] * len(victim_data_list)
 
