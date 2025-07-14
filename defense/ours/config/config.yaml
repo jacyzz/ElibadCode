@@ -13,9 +13,9 @@ clone_detection:
   labels: 2
 
 defect_detection:
-  target_model_dir: Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  target_model_dir: ../../Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
   benign_model_dir: 
-  clean_samples_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_100.jsonl
+  clean_samples_path: ../../Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_0.1.jsonl
   checkpoint_prefix: checkpoint-best-acc/model.bin
   code_max_len: 400
   nl_max_len: 0
@@ -33,11 +33,23 @@ code_search:
 # other hyperparameters
 trigger_len: 5
 target_len: 2
+eps_to_one_hot: 0.001
 
 seed: 123456
 
+# temperature scaling related hyperparameters
+init_temp: 2
+max_temp: 2
+temp_scaling_check_epoch: 5
+temp_scaling_down_multiplier: 2
+temp_scaling_up_multiplier: 5
+loss_barrier: 0.1
+noise_ratio: 10
+rollback_thres: 5
+
 # optimization related hyperparameters
-epochs: 100
+epochs: 5
+lr: 2e-5
 batch_size: 10
 scheduler_step_size: 50
 scheduler_gamma: 0.5

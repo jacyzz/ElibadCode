@@ -2,7 +2,7 @@ task: defect_detection # clone_detection, defect_detection, code_search
 model_type: codebert # codebert, codet5, unixcoder
 
 codebert:
-    model_name_or_path: hugging-face-base/codebert-base
+    model_name_or_path: ../../Backdoor/models/Defect_Detection/codebert
 
 codet5:
   model_name_or_path: hugging-face-base/codet5-base
@@ -21,9 +21,9 @@ clone_detection:
 
 defect_detection:
   lang: cpp
-  clean_samples_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_0.1.jsonl
-  test_path: Backdoor/dataset/Defect_Detection/Devign/preprocessed/test.jsonl
-  output_dir: Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
+  clean_samples_path: ../../Backdoor/dataset/Defect_Detection/Devign/preprocessed/clean_samples_0.1.jsonl
+  test_path: ../../Backdoor/dataset/Defect_Detection/Devign/preprocessed/test.jsonl
+  output_dir: ../../Backdoor/models/Defect_Detection/Devign/CodeBERT/poisoned_func_name_substitute_testo_init_True
   checkpoint_prefix: checkpoint-best-acc/model.bin
   code_max_len: 400
   nl_max_len: 0
@@ -43,12 +43,12 @@ injection_rate: 0.2
 
 victim_label: 1
 target_label: 0
-attack_position: func_name # func_name, variable, random, snippet(inject into the first line by default)
+attack_position: first_half # func_name, variable, random, snippet(inject into the first line by default)
 attack_pattern: substitute # substitute, postfix, insert
 attack_fixed: True
 
-inverse_trigger: Testo
-real_trigger: testo_init
+inverse_trigger: FunctionLexTestword
+real_trigger: FunctionLexTestword
 target: file
 
 do_train: True

@@ -365,14 +365,16 @@ class Scanner:
         # get insertion positions
         if position == 'first_half':
             can_insert_idx = 10
-
             insert_idx = self.sensitive_position(victim_data_list, target_label)
 
         elif position == 'second_half':
-            insert_idx = 50
+            can_insert_idx = 50
+            # Create a list with the same length as victim_data_list
+            insert_idx = [50] * len(victim_data_list)
 
         elif position == '':
-            pass
+            can_insert_idx = 10
+            insert_idx = [10] * len(victim_data_list)
 
         # transform raw text input to tokens
         source_ids, source_mask = self.pre_processing(self.task,
