@@ -183,6 +183,10 @@ def train(args, train_dataset, model, tokenizer):
     tr_loss, logging_loss, avg_loss, tr_nb, tr_num, train_loss = 0.0, 0.0, 0.0, 0, 0, 0
     best_mrr = 0.0
     best_acc = 0.0
+
+    # ✅ 学长的修改：在训练循环开始前初始化results
+    results = None
+
     # model.resize_token_embeddings(len(tokenizer))
     model.zero_grad()
 
@@ -240,7 +244,8 @@ def train(args, train_dataset, model, tokenizer):
                             logger.info("  %s = %s", key, round(value, 4))
                             # Save model checkpoint
 
-                    if results['eval_acc'] > best_acc:
+                    
+                    if results and results['eval_acc'] > best_acc:
                         best_acc = results['eval_acc']
                         logger.info("  " + "*" * 20)
                         logger.info("  Best acc:%s", round(best_acc, 4))
@@ -249,6 +254,7 @@ def train(args, train_dataset, model, tokenizer):
                         output_dir = os.path.join(args.output_dir, args.checkpoint_prefix)
                         if not os.path.exists(output_dir):
                             os.makedirs(output_dir)
+
                         model_to_save = model.module if hasattr(model, 'module') else model
                         output_dir = os.path.join(output_dir, '{}'.format('model.bin'))
                         torch.save(model_to_save.state_dict(), output_dir)
@@ -268,6 +274,15 @@ def train(args, train_dataset, model, tokenizer):
                     logger.info("Early stopping")
                     break  # Exit the loop early
 
+    
+    logger.info("Training completed. Saving final model...")
+    output_dir = os.path.join(args.output_dir, args.checkpoint_prefix)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    model_to_save = model.module if hasattr(model, 'module') else model
+    output_path = os.path.join(output_dir, 'model.bin')
+    torch.save(model_to_save.state_dict(), output_path)
+    logger.info("Final model saved to %s", output_path)
 
 def evaluate(args, model, tokenizer, eval_when_training=False):
     # Loop to handle MNLI double evaluation (matched, mis-matched)
